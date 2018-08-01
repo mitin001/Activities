@@ -1,0 +1,63 @@
+<div class="jumbotron container">
+    <h1 class="display-4">Modal with Handlebars.js</h1>
+    <p class="lead">Use Bootstrap 4 modal with data dynamically bound with help from Handlebars.js</p>
+    <hr class="my-4">
+    <p>Click on a button to query information from your browser and display the result in the modal</p>
+    <div class="btn-group" role="group">
+
+        <!-- Define the buttons. target: id of the modal the button should invoke -->
+        {{> button style="primary" target="modal-1" text="navigator.userAgent"}}
+        {{> button style="secondary" target="modal-1" text="Handlebars.VERSION"}}
+        {{> button style="success" target="modal-1" text="location.href"}}
+        {{> button style="danger" target="modal-1" text="performance.timeOrigin"}}
+        {{> button style="warning" target="modal-1" text="screen.width"}}
+        {{> button style="info" target="modal-1" text="$.fn.jquery"}}
+
+    </div>
+</div>
+
+<!-- Define the modal. id should match target on the buttons,
+     title and body should keep the curly braces -- we'll bind them at runtime
+ -->
+{{> modal id="modal-1" title="{{title}}" body="{{body}}"}}
+
+<script>
+    $(document).ready(function () {
+
+        function bindData(html, title, body) { // time to bind the title and the body of the modal
+            return Handlebars.compile(html)({title: title, body: body});
+        }
+
+        var $modal = $("#modal-1");
+        var originalModalHTML = $modal.html(); // before the modal HTML is altered,
+        // capture the original HTML we could reuse for subsequent bindings
+
+        var newModalHTML, text;
+
+        $("button").on("click", function () {
+            text = $(this).closest("button").text();
+            switch (text) { // query the information advertised on button text from the browser and bind to modal
+                // bootstrap will handle modal revealing and closing
+                case "navigator.userAgent":
+                    newModalHTML = bindData(originalModalHTML, "navigator.userAgent", navigator.userAgent);
+                    break;
+                case "Handlebars.VERSION":
+                    newModalHTML = bindData(originalModalHTML, "Handlebars.VERSION", Handlebars.VERSION);
+                    break;
+                case "location.href":
+                    newModalHTML = bindData(originalModalHTML, "location.href", location.href);
+                    break;
+                case "performance.timeOrigin":
+                    newModalHTML = bindData(originalModalHTML, "performance.timeOrigin", performance.timeOrigin);
+                    break;
+                case "screen.width":
+                    newModalHTML = bindData(originalModalHTML, "screen.width", screen.width);
+                    break;
+                case "$.fn.jquery":
+                    newModalHTML = bindData(originalModalHTML, "$.fn.jquery", $.fn.jquery);
+                    break;
+            }
+            $modal.html(newModalHTML); // apply
+        })
+    });
+</script>

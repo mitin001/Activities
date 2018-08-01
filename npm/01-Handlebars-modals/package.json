@@ -1,0 +1,15 @@
+{
+  "name": "handlebars-modal",
+  "version": "1.0.0",
+  "description": "An example tying together Express.js, client-side and server-side Handlebars, and Bootstrap modals",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "express-handlebars": "^3.0.0",
+    "nodemon": "^1.18.3"
+  }
+}
