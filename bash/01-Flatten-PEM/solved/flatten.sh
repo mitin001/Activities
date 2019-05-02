@@ -7,6 +7,8 @@ tail -n +2 "$1" > intermediate.txt
 tail -n 1 intermediate.txt | wc -c | xargs -I {} truncate intermediate.txt -s -{}
 
 # remove newline characters between the remaining lines
+# https://stedolan.github.io/jq/manual/
+# https://jqplay.org/
 cat intermediate.txt | jq --slurp --raw-input --raw-output 'gsub("\n"; "")' > "$2"
 
 # clean up
